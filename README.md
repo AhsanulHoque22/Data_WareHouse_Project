@@ -1,4 +1,3 @@
-# Data Warehouse Project
 This project is an exciting, hands-on journey into **building a modern SQL data warehouse from scratch**. It goes beyond theoretical knowledge, demonstrating how such complex data engineering projects are implemented in real-world companies.
 
 The primary objective is to **develop a modern data warehouse using MySQL to consolidate sales data, enabling analytical reporting and informed decision-making**. This is a foundational data analytics project designed to address the challenges faced by companies without a proper data management system, such as lengthy manual reporting processes, inconsistent data, human errors, difficulties with big data, and the inability to generate integrated reports from multiple sources.
@@ -165,6 +164,8 @@ Building ETL processes in real-world projects also involves:
 
 In this project we will be using **Full Extraction** and **Pull Extraction** techniques also we will be **parsing files** to the data warehouse. All types of transformations techniques mentioned above will be covered in this project. We will do **Batch Processing** using **Full Load (Truncate & Insert)**. And about the **Historization** we will be doing **SCD1.** 
 
+![image.png](attachment:3ba58744-3bca-4953-a800-86a10dfed754:image.png)
+
 ### **Requirements Analysis**
 
 Here are the key requirements for the data engineering part of the project, specifically for building the data warehouse:
@@ -219,6 +220,10 @@ This project adopts the Medallion Architecture, defining clear purposes, object 
 | **Data Transformation** | None (as-is) | - Data Cleaning- Data Standardization- Data Normalization- Derived Columns- Data Enrichment | - Data Integration- Data Aggregation- Business Logic & Rules |
 | **Data Modeling** | None (as-is) | None (as-is) | - Star Schema- Aggregated Objects- Flat Tables |
 | **Target Audience** | Data Engineers | Data Analysts, Data Engineers | Data Analysts, Business Users |
+
+### Layer Work Flow
+
+![image.png](attachment:e96c091c-6cf5-4acb-8811-c17e2aa70680:image.png)
 
 ### 5. Guiding Principle: Separation of Concerns
 
@@ -341,7 +346,7 @@ This document outlines the naming conventions used for schemas, tables, views, c
 - Examples:
     - `load_bronze`
     - `load_silver`
-    
+
 ### Analyze Source Systems
 
 Analyzing source systems is a crucial initial step in any data warehousing project, as it allows for a thorough understanding of the data's nature, enabling the design of correct extraction scripts and avoidance of common mistakes.
@@ -381,3 +386,21 @@ For this specific project, the requirements analysis revealed the following:
 - **Documentation:** Clear documentation of the data model is required to support business users and analytical teams, making the system easier for consumers to use.
 
 The bronze layer's specifications for this project are to load data as-is from sources into tables, perform a full load (truncating and then inserting), and apply no data transformations or new data models. The structure (schema) of the incoming CSV files for both CRM and ERP systems, including column names and data types, is determined by exploring the files themselves. For example, the `customer_info` file from CRM includes `ID` (integer), `Key` (varchar(50)), and `create_date` (date).
+
+![image.png](attachment:2098fae9-0921-4bd3-af5a-a97e61f32912:image.png)
+
+### Data Flow
+
+A **data flow diagram (DFD)** is a simple visual tool used to map the flow of data, showing where data originates and where it ultimately ends up within a project. Its primary purpose is to clarify how data moves through different layers, aiding in understanding **data lineage** and facilitating the analysis of issues.
+
+In the context of a modern SQL data warehouse project, the data flow diagram visually represents the movement of data across multiple layers:
+
+- **Sources Layer:** This initial layer indicates where the raw data comes from. In this project, it shows that data originates from CRM and ERP systems, provided as **CSV files stored in folders**.
+- **Bronze Layer:** Data flows from the source systems into the Bronze layer. This layer contains raw, unprocessed data, and the diagram shows **tables** within this layer receiving data directly from the CRM and ERP sources. Arrows connect the source folders (CRM, ERP) to individual tables within the Bronze layer (e.g., `sales details`, `customer info`, `product info`) to illustrate this direct ingestion.
+- **Silver Layer:** Data then moves from the Bronze layer to the Silver layer. The diagram depicts **tables** in the Silver layer that store clean and standardized data, with arrows showing the lineage from their corresponding tables in the Bronze layer. For instance, `silver.customer info` is shown coming from `bronze.customer info`, demonstrating the transformation and cleansing stage.
+- **Gold Layer:** The final stage of data flow is into the Gold layer, which contains business-ready data. Unlike the previous layers, the Gold layer primarily consists of **views** (e.g., `fact_sales`, `dim_customers`, `dim_products`) rather than physical tables. The diagram illustrates how these Gold layer objects integrate data from multiple Silver layer tables. For example, the `dim_products` view might draw from `silver.product info` and `silver.ERP_categories`, while `dim_customers` integrates data from various customer-related tables in the Silver layer, and `fact_sales` is built upon `silver.sales details` and incorporates keys from the Gold dimensions.
+- **Consumers Layer:** Data from the Gold layer then flows to the consumers, such as business intelligence and reporting tools (like Power BI or Tableau), or for ad-hoc analysis and machine learning purposes. Arrows connect the Gold layer views to this consumption layer.
+
+The arrows in the diagram signify the direction of data movement and processing, establishing a clear **data lineage** from the raw sources through each refined layer of the data warehouse.
+
+![image.png](attachment:855c6e9c-47fd-4ca6-9d3e-c2c6e1ef993a:image.png)

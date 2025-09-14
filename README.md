@@ -341,3 +341,43 @@ This document outlines the naming conventions used for schemas, tables, views, c
 - Examples:
     - `load_bronze`
     - `load_silver`
+    
+### Analyze Source Systems
+
+Analyzing source systems is a crucial initial step in any data warehousing project, as it allows for a thorough understanding of the data's nature, enabling the design of correct extraction scripts and avoidance of common mistakes.
+
+**Importance and Process of Source System Analysis:**
+
+- Before developing anything, data engineers must understand the source system.
+- This understanding is gained by interviewing source system experts and asking many questions.
+- Gaining this knowledge is vital for designing correct data extraction scripts and anticipating challenges.
+- The primary focus of this analysis in the bronze layer is data ingestion, which involves building a bridge between the source and the data warehouse.
+
+**Key Areas of Inquiry During Analysis:**
+The analysis typically covers both **business context and ownership** as well as **technical details**:
+
+1. **Business Context and Ownership**:
+    - Understanding the story behind the data and who is responsible for it (e.g., specific IT departments).
+    - Identifying the business processes the data supports (e.g., customer transactions, supply chain logistics, finance reporting).
+    - Seeking system and data documentation, including data models and data catalogs, which serve as learning materials and help in designing new data models and understanding table relationships.
+2. **Technicality and Integration Capabilities**:
+    - Understanding the architecture and technology stack of the source system (e.g., on-premise SQL Server, Oracle, or cloud platforms like Azure, AWS).
+    - Determining how data can be obtained (e.g., APIs, Kafka, file extractions, direct database connections).
+    - Discussing **data extraction specifics** such as:
+        - Whether incremental or full loads are possible.
+        - The data scope, including historization needs (e.g., needing 10 years of data, whether history exists in the source or needs to be built in the data warehouse).
+        - The expected size of data extracts (megabytes, gigabytes, terabytes), which influences tool and platform selection.
+        - Any data volume limitations, especially in older systems that might struggle with performance, ensuring ETL processes don't degrade source system performance.
+        - Authentication and authorization methods (e.g., tokens, keys, passwords) required to access the data.
+
+**Analysis Findings for the Project's Source Systems (CRM and ERP):**
+For this specific project, the requirements analysis revealed the following:
+
+- **Platform:** SQL Server is to be used.
+- **Data Sources:** Data needs to be imported from two source systems, **ERP** and **CRM**, which are provided as **CSV files**.
+- **Data Quality:** There is an expectation of **bad data quality** in the sources, necessitating cleaning and fixing data quality issues before analysis.
+- **Integration:** Both sources must be combined into a **single, user-friendly data model** designed for analytics and reporting.
+- **Historization:** The focus is on the **latest datasets**, meaning there is **no need for historization** in the data warehouse.
+- **Documentation:** Clear documentation of the data model is required to support business users and analytical teams, making the system easier for consumers to use.
+
+The bronze layer's specifications for this project are to load data as-is from sources into tables, perform a full load (truncating and then inserting), and apply no data transformations or new data models. The structure (schema) of the incoming CSV files for both CRM and ERP systems, including column names and data types, is determined by exploring the files themselves. For example, the `customer_info` file from CRM includes `ID` (integer), `Key` (varchar(50)), and `create_date` (date).

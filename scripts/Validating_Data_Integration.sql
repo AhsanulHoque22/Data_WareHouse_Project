@@ -1,3 +1,5 @@
+USE DataWarehouse;
+
 -- 1. check for duplicates in primary key
 SELECT cst_id, COUNT(*) FROM (
 	SELECT

@@ -14,7 +14,7 @@ Serrogate Key: System-generated unique identifier assigned to each record in a t
 -- Customer Dimension View
 CREATE VIEW dim_customers AS
 SELECT
-	ROW_NUMBER() OVER (ORDER BY cst_id) AS custmer_key, -- Surrogate key
+	ROW_NUMBER() OVER (ORDER BY cst_id) AS customer_key, -- Surrogate key
     ci.cst_id AS customer_id,
     ci.cst_key as customer_number,
     ci.cst_firstname AS first_name,
@@ -37,7 +37,7 @@ ORDER BY 1,2;
 -- Product Dimension View
 CREATE VIEW dim_products AS
 SELECT
-	ROW_NUMBER() OVER (ORDER BY pn.prd_start_dt, pn.prd_key) AS product_key,
+	ROW_NUMBER() OVER (ORDER BY pn.prd_start_dt, pn.prd_key) AS product_key,  -- Surrogate key
     pn.prd_id AS product_id,
     pn.prd_key AS product_number,
     pn.prd_nm AS product_name,
@@ -52,3 +52,26 @@ FROM cln_crm_prd_info pn
 LEFT JOIN cln_erp_px_cat_g1v2 pc
 ON		  pn.cat_id = pc.id
 WHERE prd_end_dt IS NULL; -- End date null means current data. We don't need historical products. So filter them out,
+
+-- Sales table is a fact as it contains transactions and events
+-- In fact tables we present the Serrogate Keys from the dimensions instead of the IDs from the original tables
+-- to easily connect fasts with dimensions
+-- This process is called Data Look Up
+
+CREATE VIEW fact_sales AS
+SELECT
+	sd.sls_ord_num AS order_number,
+    pr.product_key,
+    cu.customer_key,
+    sd.sls_order_dt AS order_date,
+    sd.sls_ship_dt AS shipping_date,
+    sd.sls_due_dt AS due_date,
+    sd.sls_sales AS sales_amount,
+    sd.sls_quantity AS quantity,
+    sd.sls_price AS price
+FROM cln_crm_sales_details sd
+LEFT JOIN dim_products pr
+ON		  sd.sls_prd_key = pr.product_number
+LEFT JOIN dim_customers cu
+ON		  sd.sls_cust_id = cu.customer_id;
+

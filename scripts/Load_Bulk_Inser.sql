@@ -33,6 +33,15 @@ WARNING: CSV File Access and LOAD DATA INFILE Restrictions
 
 USE DataWarehouse;
 
+/*
+SELECT * FROM crm_cust_info;
+SELECT * FROM crm_prd_info;
+SELECT * FROM crm_sales_details;
+SELECT * FROM erp_CUST_AZ12;
+SELECT * FROM erp_LOC_A101;
+SELECT * FROM erp_px_cat_g1v2;
+*/
+
 DELIMITER $$
 
 -- Procedure only handles truncation and logging
@@ -261,12 +270,3 @@ IGNORE 1 ROWS;
 
 -- Optional: Print completion message
 SELECT 'Bronze layer loading completed successfully';
-
-/*
-SELECT * FROM crm_cust_info;
-SELECT * FROM crm_prd_info;
-SELECT * FROM crm_sales_details;
-SELECT * FROM erp_CUST_AZ12;
-SELECT * FROM erp_LOC_A101;
-SELECT * FROM erp_px_cat_g1v2;
-*/

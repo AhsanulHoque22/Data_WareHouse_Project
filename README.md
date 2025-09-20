@@ -18,40 +18,38 @@ The project is organized in a logical and scalable manner:
 
 
 ahsanulhoque22-data_warehouse_project/
-├── README.md                 # Project overview and detailed explanation
-├── data_catalog.md           # Metadata and descriptions of all datasets
-├── folder_structure.md       # Detailed explanation of the directory layout
-├── data_sets/                # Raw data from source systems
-│   ├── source_crm/           # Customer relationship management data
-│   │   ├── cust_info.csv
-│   │   ├── prd_info.csv
-│   │   └── sales_details.csv
-│   └── source_erp/           # Enterprise resource planning data
-│       ├── CUST_AZ12.csv
-│       ├── LOC_A101.csv
-│       └── PX_CAT_G1V2.csv
-├── Data_visualization/       # Python scripts for data visualization and reporting
-│   └── Python_Scripts/
-│       ├── Category_Sales_Visualization.ipynb
-│       └── Comprehensive_Business_Report.ipynb
-│       ├── ... (other visualization notebooks)
-└── scripts/                  # SQL scripts for ETL, cleaning, and analysis
-    ├── Advanced_Data_Analysis/
-    │   ├── Change_Over_Time(Trends).sql
-    │   ├── Cumulative_Analysis.sql
-    │   ├── Customer_Report.sql
-    │   ├── ... (other analysis scripts)
-    ├── Data_Cleanig_and_Validation/
-    │   ├── Data_Cleaning.sql
-    │   ├── Data_Integration.sql
-    │   └── ... (other cleaning scripts)
-    └── Database_Creation/
-        ├── Database_Init.sql
-        ├── DDL.sql
-        ├── Load_Bulk_Inser.sql
-        └── Table_modifications.sql
-
-
+├── README.md # Project overview and detailed explanation
+├── data_catalog.md # Metadata and descriptions of all datasets
+├── folder_structure.md # Detailed explanation of the directory layout
+├── data_sets/ # Raw data from source systems
+│ ├── source_crm/ # Customer relationship management data
+│ │ ├── cust_info.csv
+│ │ ├── prd_info.csv
+│ │ └── sales_details.csv
+│ └── source_erp/ # Enterprise resource planning data
+│ ├── CUST_AZ12.csv
+│ ├── LOC_A101.csv
+│ └── PX_CAT_G1V2.csv
+├── Data_visualization/ # Python scripts for data visualization and reporting
+│ └── Python_Scripts/
+│ ├── Category_Sales_Visualization.ipynb
+│ ├── Comprehensive_Business_Report.ipynb
+│ └── ... (other visualization notebooks)
+└── scripts/ # SQL scripts for ETL, cleaning, and analysis
+├── Advanced_Data_Analysis/
+│ ├── Change_Over_Time(Trends).sql
+│ ├── Cumulative_Analysis.sql
+│ ├── Customer_Report.sql
+│ └── ... (other analysis scripts)
+├── Data_Cleanig_and_Validation/
+│ ├── Data_Cleaning.sql
+│ ├── Data_Integration.sql
+│ └── ... (other cleaning scripts)
+└── Database_Creation/
+├── Database_Init.sql
+├── DDL.sql
+├── Load_Bulk_Inser.sql
+└── Table_modifications.sql
 
 ---
 
